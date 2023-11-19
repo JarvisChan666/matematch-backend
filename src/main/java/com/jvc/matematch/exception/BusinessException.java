@@ -7,7 +7,7 @@ import com.jvc.matematch.common.ErrorCode;
 /**
  * 自定义异常类
  *
- * @author <a href="https://github.com/lijvc">程序员鱼皮</a>
+ * @author <a href="https://github.com/jarvischan666">JarvisChan</a>
  * @from <a href="https://jvc.icu">编程导航知识星球</a>
  */
 public class BusinessException extends RuntimeException {

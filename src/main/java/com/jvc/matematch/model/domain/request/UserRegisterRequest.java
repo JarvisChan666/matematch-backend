@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 用户注册请求体
  *
- * @author <a href="https://github.com/lijvc">程序员鱼皮</a>
+ * @author <a href="https://github.com/jarvischan666">JarvisChan</a>
  * @from <a href="https://jvc.icu">编程导航知识星球</a>
  */
 @Data

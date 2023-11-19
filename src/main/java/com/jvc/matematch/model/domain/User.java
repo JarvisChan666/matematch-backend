@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 用户实体
  *
- * @author <a href="https://github.com/lijvc">程序员鱼皮</a>
+ * @author <a href="https://github.com/jarvischan666">JarvisChan</a>
  * @from <a href="https://jvc.icu">编程导航知识星球</a>
  */
 @TableName(value = "user")
@@ -87,7 +87,7 @@ public class User implements Serializable {
      */
     private String planetCode;
 
-    // https://github.com/lijvc
+    // https://github.com/jarvischan666
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

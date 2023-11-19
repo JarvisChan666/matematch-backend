@@ -5,7 +5,7 @@ package com.jvc.matematch.common;
 /**
  * 错误码
  *
- * @author <a href="https://github.com/lijvc">程序员鱼皮</a>
+ * @author <a href="https://github.com/jarvischan666">JarvisChan</a>
  * @from <a href="https://jvc.icu">编程导航知识星球</a>
  */
 public enum ErrorCode {

@@ -1,5 +1,5 @@
 # 线上配置文件
-# @author <a href="https://github.com/lijvc">程序员鱼皮</a>
+# @author <a href="https://github.com/jarvischan666">JarvisChan</a>
 # @from <a href="https://jvc.icu">编程导航知识星球</a>
 spring:
   # DataSource Config
@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: 'jdbc:mysql://sh-cynosdbmysql-grp-98pxrcoq.sql.tencentcdb.com:29164/user_center?useSSL=false'
     username: self
-    password: lijvc66!
+    password: jarvischan66666!
   # session 失效时间
   session:
     timeout: 86400

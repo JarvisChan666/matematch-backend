@@ -1,0 +1,44 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/**'
+      - 'src/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@vx3
+      - name: Set up JDK 18
+        uses: actions/setup-java@v2
+        with:
+          java-version: '9'
+          distribution: 'adopt'
+      - name: Build with Maven
+        run: mvn package -DskipTests --file pom.xml
+      - name: Docker login and push
+        run: |
+          docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+          docker build -t matematch-backend:1.0 .
+          docker tag matematch-backend:1.0 ${{ secrets.DOCKER_REPOSITORY }}
+          docker push ${{ secrets.DOCKER_REPOSITORY }}
+      - name: SSH and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          port: 22
+          username: ${{ secrets.REMOTE_USERNAME }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
+          key: ${{ secrets.REMOTE_KEY }}
+          script: |
+            docker pull jarvischan630/matematch-backend:1.0
+            docker run --name matematch-backend -d -p 8081:80 jarvischan630/matematch-backend:1.0
+            docker stop matematch-backend
+            docker rm matematch-backend
+            docker run --name matematch-backend -d -p 8081:80 jarvischan630/matematch-backend:1.0
+            docker image prune -f
+            docker container prune -f

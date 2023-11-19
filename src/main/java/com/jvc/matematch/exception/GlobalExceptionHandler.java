@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * 全局异常处理器
  *
- * @author <a href="https://github.com/lijvc">程序员鱼皮</a>
+ * @author <a href="https://github.com/jarvischan666">JarvisChan</a>
  * @from <a href="https://jvc.icu">编程导航知识星球</a>
  */
 @RestControllerAdvice
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         return ResultUtils.error(e.getCode(), e.getMessage(), e.getDescription());
     }
 
-    //https://github.com/lijvc
+    //https://github.com/jarvischan666
 
     @ExceptionHandler(RuntimeException.class)
     public BaseResponse<?> runtimeExceptionHandler(RuntimeException e) {
