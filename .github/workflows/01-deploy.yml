@@ -20,7 +20,6 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         run: |
-#          --file ./pom.xml1
           mvn package -DskipTests
       - name: Docker login and push
         run: |
