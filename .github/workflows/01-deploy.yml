@@ -19,7 +19,9 @@ jobs:
           java-version: '9'
           distribution: 'adopt'
       - name: Build with Maven
-        run: mvn package -DskipTests --file pom.xml
+        run: |
+          mvn install
+          mvn package -DskipTests --file pom.xml
       - name: Docker login and push
         run: |
           docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
