@@ -1,4 +1,4 @@
-name: Java CICD with Maven and Docker
+name: Java CI and CD with Maven and Docker
 
 on:
   push:
