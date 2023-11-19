@@ -33,8 +33,9 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           port: 22
           username: ${{ secrets.REMOTE_USERNAME }}
-          password: '@C744765386b'
+          password: ${{ secrets.REMOTE_PASSWORD }}
           key: ${{ secrets.REMOTE_KEY }}
+          key_path: '~/.ssh/id_rsa'
           script: |
             docker pull jarvischan630/matematch-backend:1.0
             docker run --name matematch-backend -d -p 8081:80 jarvischan630/matematch-backend:1.0
