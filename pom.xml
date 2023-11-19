@@ -8,7 +8,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.4</version>
-<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+        <relativePath>./pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jvc</groupId>
     <artifactId>matematch-backend</artifactId>
