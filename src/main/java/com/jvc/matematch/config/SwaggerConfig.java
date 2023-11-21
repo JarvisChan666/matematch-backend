@@ -20,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@Profile({"dev", "test"})   //版本控制访问
+//@Profile({"dev", "test"})   //版本控制访问
 public class SwaggerConfig {
 
     @Bean(value = "defaultApi2")
