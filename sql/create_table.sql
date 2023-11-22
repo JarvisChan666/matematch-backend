@@ -13,6 +13,7 @@ create table user
     userPassword varchar(512)                       not null comment '密码',
     phone        varchar(128)                       null comment '电话',
     email        varchar(512)                       null comment '邮箱',
+    profile      varchar(512)                       null comment '简介',
     userStatus   int      default 0                 not null comment '状态 0 - 正常',
     createTime   datetime default CURRENT_TIMESTAMP null comment '创建时间',
     updateTime   datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,

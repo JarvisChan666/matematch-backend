@@ -9,7 +9,8 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/jvc
     username: root
-    password: 123456
+#    password: 123456
+    password: czb161081167 #azure服务器mysql
   # session 失效时间
   session:
     timeout: 86400
@@ -23,6 +24,7 @@ spring:
     database: 0
   profiles:
     active: dev
+
 server:
   port: 8080
   servlet:
