@@ -36,11 +36,11 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           key: ${{ secrets.REMOTE_KEY }}
           script: |
-            docker pull jarvischan630/matematch-backend:1.0
+            docker pull jarvischan630/matematch-backend
             docker rm matematch-backend
-            docker run --name matematch-backend -d -p 8081:80 jarvischan630/matematch-backend:1.0
+            docker run --name matematch-backend -d -p 8081:80 jarvischan630/matematch-backend
             docker stop matematch-backend
             docker rm matematch-backend
-            docker run --name matematch-backend -d -p 8081:80 jarvischan630/matematch-backend:1.0
+            docker run --name matematch-backend -d -p 8081:80 jarvischan630/matematch-backend
             docker image prune -f
             docker container prune -f
