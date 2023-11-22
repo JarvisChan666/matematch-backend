@@ -25,8 +25,8 @@ jobs:
         run: |
           docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
           docker build -t matematch-backend:1.0 .
-          docker tag matematch-backend:1.0 ${{ secrets.DOCKER_REPOSITORY }}
-          docker push ${{ secrets.DOCKER_REPOSITORY }}
+          docker tag matematch-backend:1.0 ${{ secrets.DOCKER_REPOSITORY }}:1.0
+          docker push ${{ secrets.DOCKER_REPOSITORY }}:1.0
       - name: SSH and deploy
         uses: appleboy/ssh-action@master
         with:
