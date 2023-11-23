@@ -9,8 +9,9 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/jvc
     username: root
+    password: czbbzc
 #    password: 123456
-    password: czb161081167 #azure服务器mysql
+#    password: czb161081167 #azure服务器mysql
   # session 失效时间
   session:
     timeout: 86400
@@ -20,13 +21,17 @@ spring:
       matching-strategy: ant_path_matcher
   redis:
     port: 6379
-#    host: localhost
+    host: localhost
     database: 0
-    host: redis-container
   profiles:
     active: dev
 
 server:
+  ssl:
+    key-store: classpath:httpsKey.p12
+    key-alias: anyname
+    key-store-password: czbbzc
+    key-store-type: PKCS12
   port: 8080
   servlet:
     context-path: /api
