@@ -30,11 +30,11 @@ spring:
 
 server:
 #  开启 https
-#  ssl:
-#    key-store: classpath:httpsKey.p12
-#    key-alias: anyname
-#    key-store-password: czbbzc
-#    key-store-type: PKCS12
+  ssl:
+    key-store: classpath:httpsKey.p12
+    key-alias: anyname
+    key-store-password: czbbzc
+    key-store-type: PKCS12
   port: 8080
   servlet:
     context-path: /api
