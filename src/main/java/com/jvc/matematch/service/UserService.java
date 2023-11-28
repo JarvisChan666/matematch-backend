@@ -54,4 +54,38 @@ public interface UserService extends IService<User> {
      * @return
      */
     int userLogout(HttpServletRequest request);
+
+    /**
+     * 获取登录用户
+     *
+     * @param request
+     * @return
+     */
+    User getLoginUser(HttpServletRequest request);
+
+    /**
+     * 更新用户信息
+     *
+     * @param user
+     * @param loginUser
+     * @return
+     */
+    // 表示user参数是通过请求体传递的JSON格式数据，并且会被自动反序列化为User对象
+    int updateUser(User user, User loginUser);
+
+    /**
+     * 判断是否为管理员
+     *
+     * @param loginUser
+     * @return
+     */
+    boolean isAdmin(User loginUser);
+
+    /**
+     * 判断是否为管理员
+     *
+     * @param request
+     * @return
+     */
+    boolean isAdmin(HttpServletRequest request);
 }

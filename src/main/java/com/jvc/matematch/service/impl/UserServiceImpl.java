@@ -26,6 +26,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.jvc.matematch.contant.UserConstant.ADMIN_ROLE;
+import static com.jvc.matematch.contant.UserConstant.USER_LOGIN_STATE;
+
 /**
  * 用户服务实现类
  *
@@ -213,7 +216,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 3. 用户脱敏
         User safetyUser = getSafetyUser(user);
         // 4. 记录用户的登录态
-        request.getSession().setAttribute(UserConstant.USER_LOGIN_STATE, safetyUser);
+        request.getSession().setAttribute(USER_LOGIN_STATE, safetyUser);
         return safetyUser;
     }
 
@@ -251,9 +254,59 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public int userLogout(HttpServletRequest request) {
         // 移除登录态
-        request.getSession().removeAttribute(UserConstant.USER_LOGIN_STATE);
+        request.getSession().removeAttribute(USER_LOGIN_STATE);
         return 1;
     }
+
+    @Override
+    public int updateUser(User user, User loginUser) {
+        long userId = user.getId();
+        if (userId <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        // 校验 如果用户没有任何要更新的值，直接报错不返回
+        if (StringUtils.isAllBlank(user.getUsername(), user.getAvatarUrl(), user.getPhone(), user.getEmail(), user.getTags())) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        //  如果及不是管理员，又不是用户自己，不能更改
+        if (!isAdmin(loginUser) && loginUser.getId() != userId) {
+            throw new BusinessException(ErrorCode.NO_AUTH);
+        }
+        User userold = userMapper.selectById(userId);
+        // 如果用户不存在
+        if (userold == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+        // mapper提供的方法
+        return userMapper.updateById(user);
+    }
+
+    public boolean isAdmin(HttpServletRequest request) {
+        // 仅管理员可查询
+        //  请求中获取登录态
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        User user = (User) userObj;
+        // get方法都是自带的
+        return user != null && user.getUserRole() == ADMIN_ROLE;
+    }
+
+    public boolean isAdmin(User loginUser) {
+        return loginUser != null && loginUser.getUserRole() == ADMIN_ROLE;
+    }
+
+    public User getLoginUser(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        if (userObj == null) {
+            throw new BusinessException(ErrorCode.NO_AUTH);
+        }
+        return (User) userObj;
+    }
 }
+
 
 // [加入我们](https://jvc.icu) 从 0 到 1 项目实战，经验拉满！10+ 原创项目手把手教程、7 日项目提升训练营、1000+ 项目经验笔记、60+ 编程经验分享直播

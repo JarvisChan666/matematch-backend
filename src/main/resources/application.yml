@@ -5,14 +5,18 @@ spring:
   application:
     name: matematch-backend
   # DataSource Config
+  config: #filess
+    import: optional:file:.env
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jvc
-    username: root
-    password: czbbzc
+    url: mysql://${DB}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_USER}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/jvc
+#    username: root
 #    password: 123456
-#    password: czb161081167 #azure服务器mysql
-  # session 失效时间
+#    password: czbbzc
   session:
     timeout: 86400
     store-type: redis
@@ -27,14 +31,18 @@ spring:
     active: dev
 
 server:
-  ssl:
-    key-store: classpath:httpsKey.p12
-    key-alias: anyname
-    key-store-password: czbbzc
-    key-store-type: PKCS12
+#  开启 https
+#  ssl:
+#    key-store: classpath:httpsKey.p12
+#    key-alias: anyname
+#    key-store-password: czbbzc
+#    key-store-type: PKCS12
   port: 8080
   servlet:
     context-path: /api
+    session:
+      cookie:
+        domain: localhost #规定localhost下可携带cookie
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
