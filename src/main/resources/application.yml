@@ -5,12 +5,10 @@ spring:
   application:
     name: matematch-backend
   # DataSource Config
-  config: #filess
-    import: optional:file:.env
   datasource:
-    url: mysql://${DB}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_USER}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: mysql://matematch_earnjungle:7cd31c819686f1fa9573027861d076cf05167d99@hzf.h.filess.io:3307/matematch_earnjungle
+    username: matematch_earnjungle
+    password: 7cd31c819686f1fa9573027861d076cf05167d99
 #  datasource:
 #    driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/jvc
