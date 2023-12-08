@@ -18,16 +18,16 @@ spring:
   session:
     ##如果这段时间内没有任何请求，则断开绘画
     timeout: 86400
-    store-type: redis
-    redis:
-      namespace: spring:session
+#    store-type: redis
+#    redis:
+#      namespace: spring:session
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-  redis:
-    port: 6379
-    host: localhost
-    database: 0
+#  redis:
+#    port: 6379
+#    host: localhost
+#    database: 0
   profiles:
     active: dev
 
