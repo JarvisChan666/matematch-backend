@@ -1,22 +1,29 @@
 package com.jvc.matematch.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jvc.matematch.common.BaseResponse;
 import com.jvc.matematch.common.ErrorCode;
 import com.jvc.matematch.common.ResultUtils;
 import com.jvc.matematch.contant.UserConstant;
 import com.jvc.matematch.exception.BusinessException;
-import com.jvc.matematch.model.domain.request.UserLoginRequest;
-import com.jvc.matematch.model.domain.request.UserRegisterRequest;
+import com.jvc.matematch.model.request.UserLoginRequest;
+import com.jvc.matematch.model.request.UserRegisterRequest;
 import com.jvc.matematch.service.UserService;
 import com.jvc.matematch.model.domain.User;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -28,12 +35,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/user")
 // 跨域请求
-@CrossOrigin
+//@CrossOrigin
+@Slf4j
 public class UserController {
 
     @Resource
     private UserService userService;
 
+    @Resource
+    private RedisTemplate redisTemplate;
     /**
      * 用户注册
      *
@@ -65,7 +75,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public BaseResponse<User> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+    public BaseResponse<User> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request, HttpServletResponse response) {
         if (userLoginRequest == null) {
             return ResultUtils.error(ErrorCode.PARAMS_ERROR);
         }
@@ -75,6 +85,7 @@ public class UserController {
             return ResultUtils.error(ErrorCode.PARAMS_ERROR);
         }
         User user = userService.userLogin(userAccount, userPassword, request);
+
         return ResultUtils.success(user);
     }
 
@@ -138,6 +149,43 @@ public class UserController {
         List<User> userList = userService.searchUsersByTags(tagNameList);
         return ResultUtils.success(userList);
     }
+
+    //    @Override
+//    @GetMapping("/search/tags")
+//    public BaseResponse<Page<User>> searchUsersByTags(@RequestParam(required = false) List<String> tagNameList,
+//                                                      @RequestParam(defaultValue = "1") long pageNum,
+//                                                      @RequestParam(defaultValue = "10") long pageSize) {
+//        // 后端判空
+//        if (CollectionUtils.isEmpty(tagNameList)) {
+//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+//        }
+//        Page<User> userList = userService.searchUsersByTags(tagNameList, new Page<>(pageNum, pageSize));
+//        return ResultUtils.success(userList);
+//    }
+
+    // 分页查询推荐用户
+    @GetMapping("/recommend")
+    public BaseResponse<Page<User>> recommendUsers(long pageSize, long pageNum, HttpServletRequest request) {
+        User logininUser = userService.getLoginUser(request);
+        String redisKey = String.format("shayu:user:recommend:%s",logininUser.getId());
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        //如果有缓存，直接读取
+        Page<User> userPage = (Page<User>) valueOperations.get(redisKey);
+        if (userPage != null){
+            return ResultUtils.success(userPage);
+        }
+        //无缓存，查数据库
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        userPage = userService.page(new Page<>(pageNum,pageSize),queryWrapper);
+        //写缓存,10s过期
+        try {
+            valueOperations.set(redisKey,userPage,30000, TimeUnit.MILLISECONDS);
+        } catch (Exception e){
+            log.error("redis set key error",e);
+        }
+        return ResultUtils.success(userPage);
+    }
+
 
     @PostMapping("/update")
     public BaseResponse<Integer> updateUser(@RequestBody User user, HttpServletRequest request) {

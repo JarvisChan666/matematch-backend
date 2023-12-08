@@ -1,5 +1,4 @@
 package com.jvc.matematch.service;
-
 import com.jvc.matematch.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,6 +14,8 @@ import java.util.List;
 public interface UserService extends IService<User> {
 
     List<User> searchUsersByTags(List<String> tagNameList);
+
+//    Page<User> searchUsersByTags(List<String> tagNameList, Page<User> page);
 
     /**
      * 用户注册

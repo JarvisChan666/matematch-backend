@@ -1,19 +1,17 @@
-package com.jvc.matematch.model.domain.request;
-
-// [编程学习交流圈](https://www.code-nav.cn/) 快速入门编程不走弯路！30+ 原创学习路线和专栏、500+ 编程学习指南、1000+ 编程精华文章、20T+ 编程资源汇总
+package com.jvc.matematch.model.request;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * 用户登录请求体
+ * 用户注册请求体
  *
  * @author <a href="https://github.com/jarvischan666">JarvisChan</a>
  * @from <a href="https://jvc.icu">编程导航知识星球</a>
  */
 @Data
-public class UserLoginRequest implements Serializable {
+public class UserRegisterRequest implements Serializable {
 
     private static final long serialVersionUID = 3191241716373120793L;
 
@@ -27,5 +25,15 @@ public class UserLoginRequest implements Serializable {
      */
     private String userPassword;
 
-    // https://www.code-nav.cn/
+    /**
+     * 校验密码
+     */
+    private String checkPassword;
+
+    /**
+     * 星球编号
+     */
+    private String planetCode;
 }
+
+// [加入编程导航](https://jvc.icu) 入门捷径+交流答疑+项目实战+求职指导，帮你自学编程不走弯路

@@ -1,24 +1,18 @@
-package com.jvc.matematch.model.domain;
+package com.jvc.matematch.model.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户实体
- *
- * @author <a href="https://github.com/jarvischan666">JarvisChan</a>
- * @from <a href="https://jvc.icu">编程导航知识星球</a>
+ * 用户包装类（脱敏）
  */
-@TableName(value = "user")
 @Data
-public class User implements Serializable {
+public class UserVO implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.AUTO)
     private long id;
 
     /**
@@ -42,11 +36,6 @@ public class User implements Serializable {
     private Integer gender;
 
     /**
-     * 密码
-     */
-    private String userPassword;
-
-    /**
      * 电话
      */
     private String phone;
@@ -55,6 +44,11 @@ public class User implements Serializable {
      * 邮箱
      */
     private String email;
+
+    /**
+     * 标签列表 json
+     */
+    private String tags;
 
     /**
      * 状态 0 - 正常
@@ -72,12 +66,6 @@ public class User implements Serializable {
     private Date updateTime;
 
     /**
-     * 是否删除
-     */
-    @TableLogic
-    private Integer isDelete;
-
-    /**
      * 用户角色 0 - 普通用户 1 - 管理员
      */
     private Integer userRole;
@@ -87,15 +75,5 @@ public class User implements Serializable {
      */
     private String planetCode;
 
-    private String profile;
-
-    // https://github.com/jarvischan666
-
-    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    private String tags;
-
 }
-
-// [加入编程导航](https://jvc.icu) 深耕编程提升【两年半】、国内净值【最高】的编程社群、用心服务【20000+】求学者、帮你自学编程【不走弯路】

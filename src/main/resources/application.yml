@@ -6,18 +6,18 @@ spring:
     name: matematch-backend
   # DataSource Config
   datasource:
-    url: mysql://matematch_earnjungle:7cd31c819686f1fa9573027861d076cf05167d99@hzf.h.filess.io:3307/matematch_earnjungle
-    username: matematch_earnjungle
-    password: 7cd31c819686f1fa9573027861d076cf05167d99
-#  datasource:
-#    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/jvc
-#    username: root
-#    password: 123456
-#    password: czbbzc
+    ## 本地windows数据库
+    url: jdbc:mysql://192.168.43.51:3306/jvc
+    username: root
+    password: 123456
   session:
+    ##如果这段时间内没有任何请求，则断开绘画
     timeout: 86400
     store-type: redis
+    redis:
+      namespace: spring:session
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -29,18 +29,20 @@ spring:
     active: dev
 
 server:
-#  开启 https
-  ssl:
-    key-store: classpath:httpsKey.p12
-    key-alias: anyname
-    key-store-password: czbbzc
-    key-store-type: PKCS12
+##  开启 https
+#  ssl:
+#    key-store: classpath:httpsKey.p12
+#    key-alias: anyname
+#    key-store-password: czbbzc
+#    key-store-type: PKCS12
   port: 8080
   servlet:
     context-path: /api
     session:
       cookie:
-        domain: localhost #规定localhost下可携带cookie
+        domain: ''
+#  address: 0.0.0.0
+#        domain: localhost #规定localhost下可携带cookie
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false

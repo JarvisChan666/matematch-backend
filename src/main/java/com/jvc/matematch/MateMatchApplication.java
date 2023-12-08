@@ -5,7 +5,8 @@ package com.jvc.matematch;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 /**
  * 启动类
  *
@@ -14,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.jvc.matematch.mapper")
+@EnableScheduling
+@EnableRedisHttpSession // 添加这行注解，开启redis作为spring session
 public class MateMatchApplication {
 
     public static void main(String[] args) {

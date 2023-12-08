@@ -1,6 +1,7 @@
 package com.jvc.matematch.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.reflect.TypeToken;
 import com.jvc.matematch.common.ErrorCode;
@@ -11,6 +12,7 @@ import com.jvc.matematch.service.UserService;
 import com.jvc.matematch.model.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
@@ -18,10 +20,7 @@ import com.google.gson.Gson;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -88,6 +87,66 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }).map(this::getSafetyUser).collect(Collectors.toList());
     }
 
+//    @Override
+//    public Page<User> searchUsersByTags(List<String> tagNameList, Page<User> page) {
+//        // 创建查询条件
+//        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.in("tags", tagNameList);
+//        // 执行分页查询
+//        return userMapper.selectPage(page, queryWrapper);
+//    }
+
+//    private static final Gson GSON = new Gson();
+//
+//    @Override
+//    public List<User> searchUsersByTags(List<String> tagNameList) {
+//        if (CollectionUtils.isEmpty(tagNameList)) {
+//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+//        }
+//
+//        // 1. Query users whose tags contain all specified tags
+//        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.like("tags", tagNameList.toString());
+//        List<User> userList = userMapper.selectList(queryWrapper);
+//
+//        // 2. Filter users in memory
+//        return userList.parallelStream().filter(user -> {
+//            String tagstr = user.getTags();
+//            Set<String> tempTagNameSet = GSON.fromJson(tagstr, new TypeToken<Set<String>>() {}.getType());
+//            tempTagNameSet = Optional.ofNullable(tempTagNameSet).orElse(Collections.emptySet());
+//
+//            return tagNameList.stream().allMatch(tempTagNameSet::contains);
+//        }).map(this::getSafetyUser).collect(Collectors.toList());
+//    }
+
+//    private static final Gson GSON = new Gson();
+//    private static final RedisProperties.Jedis REDIS_CLIENT = new RedisProperties.Jedis();
+
+//    @Override
+//    public List<User> searchUsersByTags(List<String> tagNameList) {
+//        if (CollectionUtils.isEmpty(tagNameList)) {
+//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+//        }
+//
+//        // Check if the result is in Redis
+//        String redisKey = String.join(",", tagNameList);
+//        String cachedResult = REDIS_CLIENT.set(redisKey);
+//        if (cachedResult != null) {
+//            return GSON.fromJson(cachedResult, new TypeToken<List<User>>() {}.getType());
+//        }
+//
+//        // Query and filter users
+//        // 1. Query users whose tags contain all specified tags
+//        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.like("tags", tagNameList.toString());
+//        List<User> userList = userMapper.selectList(queryWrapper);
+//
+//
+//        // Cache the result in Redis
+//        REDIS_CLIENT.set(redisKey, GSON.toJson(result));
+//
+//        return result;
+//    }
 
     /**
      * 根据标签搜索用户。(sql查询版)
