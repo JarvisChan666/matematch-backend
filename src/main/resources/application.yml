@@ -9,9 +9,12 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/jvc
     ## 本地windows数据库
-    url: jdbc:mysql://192.168.43.51:3306/jvc
+#    url: jdbc:mysql://192.168.43.51:3306/jvc
+    url: jdbc:mysql://10.25.107.123:3306/jvc
+
     username: root
-    password: 123456
+    password: C744765386b@
+  #    password: 123456
   session:
     ##如果这段时间内没有任何请求，则断开绘画
     timeout: 86400
